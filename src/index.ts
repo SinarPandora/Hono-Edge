@@ -7,7 +7,7 @@ const app = new Hono().basePath('/api');
 app.use(
     '*',
     cors({
-        origin: ['http://localhost:21300', 'https://splat.yohane.cc', 'https://spla.tools'],
+        origin: ['http://localhost:21300', 'https://splat.yohane.cc', 'https://spla.tools', 'http://gaspla.tools'],
         allowMethods: ['PUT', 'POST', 'GET', 'OPTIONS'],
         maxAge: 600,
         credentials: true,
