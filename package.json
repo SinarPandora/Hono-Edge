@@ -1,12 +1,22 @@
 {
   "scripts": {
+    "dev": "bun run --hot src/index.ts",
     "start": "vercel dev",
-    "deploy": "vercel"
+    "deploy": "vercel",
+    "prisma:pull": "bunx prisma db pull",
+    "prisma:generate": "bunx prisma generate",
+    "vercel:prisma:generate": "bunx prisma generate --no-engine",
+    "prisma:studio": "bunx prisma studio"
   },
+  "packageManager": "bun",
   "dependencies": {
-    "hono": "^3.8.2"
+    "@prisma/client": "^5.5.2",
+    "@prisma/extension-accelerate": "^0.6.2",
+    "hono": "^3.8.2",
+    "prisma": "^5.5.2"
   },
   "devDependencies": {
-    "vercel": "^32.4.1"
+    "vercel": "^32.4.1",
+    "bun-types": "^1.0.7"
   }
 }

@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model t_announcements {
+  id                Int      @id @default(autoincrement())
+  title             String   @db.VarChar(255)
+  content_file_path String?  @db.VarChar(512)
+  date_posted       DateTime @db.DateTime(0)
+  tags              Json?
+}
+
+model t_articles {
+  article_id  Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  editor_id   Int
+  content     String?  @db.LongText
+  update_date DateTime @default(now()) @db.Timestamp(0)
+  is_active   Boolean? @default(true)
+}
+
+model t_resource_files {
+  file_id     Int      @id @default(autoincrement())
+  filename    String   @db.VarChar(500)
+  hash_token  String   @db.VarChar(100)
+  uploader_id Int
+  upload_date DateTime @default(now()) @db.Timestamp(0)
+  is_active   Boolean  @default(true)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model t_splat_info {
+  user_id      Int          @id
+  nickname     String       @db.VarChar(20)
+  nicknum      Int
+  update_time  DateTime?    @db.DateTime(0)
+  ns_code      Int?
+  t_splatusers t_splatusers @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "t_splat_info_t_splatusers_user_id_fk")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model t_splatusers {
+  user_id      Int           @id @default(autoincrement())
+  kook_id      Int           @unique(map: "t_splatusers_kook_index")
+  password     String?       @db.VarChar(255)
+  kook_name    String?       @db.VarChar(100)
+  create_time  DateTime?     @default(now()) @db.DateTime(0)
+  last_active  DateTime?     @default(now()) @db.DateTime(0)
+  t_splat_info t_splat_info?
+  t_x_score    t_x_score?
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model t_users {
+  user_id   Int    @id @default(autoincrement())
+  username  String @unique(map: "username") @db.VarChar(255)
+  password  String @db.VarChar(255)
+  is_active Int    @default(1)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model t_x_score {
+  user_id      Int          @id
+  x_score      Float
+  submit_time  DateTime     @default(now()) @db.DateTime(0)
+  valid        Boolean      @default(true)
+  t_splatusers t_splatusers @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "t_x_score_t_splatusers_user_id_fk")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model t_x_score_log {
+  submission  Int      @id @default(autoincrement())
+  user_id     Int
+  x_score     Float
+  submit_time DateTime @default(now()) @db.DateTime(0)
+}

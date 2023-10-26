@@ -1,4 +1,5 @@
 {
+  "buildCommand": "prisma generate --no-engine",
   "rewrites": [
     {
       "source": "/api/(.*)",

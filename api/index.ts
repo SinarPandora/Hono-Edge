@@ -1,14 +1,10 @@
 // noinspection JSUnusedGlobalSymbols
 
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
+import { handle } from 'hono/vercel';
+import app from "../src";
 
 export const config = {
   runtime: 'edge',
 }
 
-const app = new Hono().basePath('/api')
-
-app.get('/', (c) => c.json({ message: 'Hello Hono!' }))
-
-export default handle(app)
+export default handle(app);
